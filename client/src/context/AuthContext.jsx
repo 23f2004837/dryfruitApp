@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -18,14 +19,6 @@ export const AuthProvider = ({ children }) => {
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-  useEffect(() => {
-    if (token) {
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
-  }, [token]);
-
   const fetchUser = async () => {
     try {
       const response = await axios.get(`${API_URL}/auth/me`, {
@@ -40,6 +33,15 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (token) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const login = (newToken) => {
     localStorage.setItem('token', newToken);
