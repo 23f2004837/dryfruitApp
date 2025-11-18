@@ -1,10 +1,18 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
 import Order from '../models/Order.js';
 import User from '../models/User.js';
 import { sendOrderConfirmation } from '../utils/emailService.js';
 
 const router = express.Router();
+
+// Rate limiter for order operations
+const orderLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // Limit each IP to 20 order requests per windowMs
+  message: 'Too many requests, please try again later.'
+});
 
 // Middleware to verify JWT
 const authenticateToken = async (req, res, next) => {
@@ -24,7 +32,7 @@ const authenticateToken = async (req, res, next) => {
 };
 
 // Create new order
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', orderLimiter, authenticateToken, async (req, res) => {
   try {
     const { items, totalAmount, paymentMethod } = req.body;
     
@@ -64,7 +72,7 @@ router.post('/', authenticateToken, async (req, res) => {
 });
 
 // Get user's order history
-router.get('/history', authenticateToken, async (req, res) => {
+router.get('/history', orderLimiter, authenticateToken, async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.userId })
       .populate('items.productId')
@@ -77,7 +85,7 @@ router.get('/history', authenticateToken, async (req, res) => {
 });
 
 // Get single order
-router.get('/:id', authenticateToken, async (req, res) => {
+router.get('/:id', orderLimiter, authenticateToken, async (req, res) => {
   try {
     const order = await Order.findOne({
       _id: req.params.id,
