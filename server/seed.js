@@ -1,0 +1,100 @@
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import Product from './models/Product.js';
+
+dotenv.config();
+
+const products = [
+  {
+    name: 'Premium Almonds',
+    description: 'High-quality California almonds, rich in nutrients and perfect for snacking.',
+    price: 599,
+    image: 'https://images.unsplash.com/photo-1508747703725-719777637510?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Cashew Nuts',
+    description: 'Creamy and delicious cashews, perfect for cooking or snacking.',
+    price: 699,
+    image: 'https://images.unsplash.com/photo-1585273404668-baee9cfd59fc?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Pistachios',
+    description: 'Premium Iranian pistachios with rich flavor and crunch.',
+    price: 899,
+    image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Walnuts',
+    description: 'Fresh California walnuts, great for brain health and cooking.',
+    price: 549,
+    image: 'https://images.unsplash.com/photo-1623061704730-3b80f03e2629?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Raisins',
+    description: 'Sweet and juicy raisins, perfect for desserts and healthy snacking.',
+    price: 299,
+    image: 'https://images.unsplash.com/photo-1632485447556-8f03e6e8f5e7?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Dried Dates',
+    description: 'Natural sweetener and energy booster, premium quality dates.',
+    price: 399,
+    image: 'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Dried Figs',
+    description: 'Naturally sweet dried figs, rich in fiber and minerals.',
+    price: 449,
+    image: 'https://images.unsplash.com/photo-1612528443702-f6741f70a049?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Dried Apricots',
+    description: 'Tangy and sweet dried apricots, packed with vitamins.',
+    price: 349,
+    image: 'https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Mixed Nuts',
+    description: 'Premium assortment of almonds, cashews, and walnuts.',
+    price: 799,
+    image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  },
+  {
+    name: 'Pine Nuts',
+    description: 'Exotic pine nuts with buttery flavor, perfect for salads.',
+    price: 1299,
+    image: 'https://images.unsplash.com/photo-1616524529481-7c0b3f8d6f61?w=400&h=300&fit=crop',
+    category: 'dry-fruits'
+  }
+];
+
+const seedProducts = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dryfruitapp');
+    console.log('Connected to MongoDB');
+    
+    // Clear existing products
+    await Product.deleteMany({});
+    console.log('Cleared existing products');
+    
+    // Insert new products
+    await Product.insertMany(products);
+    console.log('Products seeded successfully');
+    
+    process.exit(0);
+  } catch (error) {
+    console.error('Error seeding products:', error);
+    process.exit(1);
+  }
+};
+
+seedProducts();

@@ -1,0 +1,17 @@
+{
+  "name": "dryfruitapp",
+  "version": "1.0.0",
+  "description": "Dry Fruits Shopping Application",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd server && npm start",
+    "server:dev": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "client:build": "cd client && npm run build",
+    "seed": "cd server && node seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["dry-fruits", "shopping", "ecommerce"],
+  "author": "",
+  "license": "ISC"
+}
