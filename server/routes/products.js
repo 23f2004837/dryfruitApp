@@ -1,10 +1,18 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import Product from '../models/Product.js';
 
 const router = express.Router();
 
+// Rate limiter for product routes
+const productLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: 'Too many requests, please try again later.'
+});
+
 // Get all products
-router.get('/', async (req, res) => {
+router.get('/', productLimiter, async (req, res) => {
   try {
     const products = await Product.find({ inStock: true });
     res.json(products);
@@ -14,7 +22,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get single product
-router.get('/:id', async (req, res) => {
+router.get('/:id', productLimiter, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {

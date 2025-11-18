@@ -1,17 +1,25 @@
 import express from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
 import User from '../models/User.js';
 
 const router = express.Router();
 
+// Rate limiter for authentication routes
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 requests per windowMs
+  message: 'Too many authentication attempts, please try again later.'
+});
+
 // Google OAuth login
-router.get('/google', passport.authenticate('google', { 
+router.get('/google', authLimiter, passport.authenticate('google', { 
   scope: ['profile', 'email'] 
 }));
 
 // Google OAuth callback
-router.get('/google/callback', 
+router.get('/google/callback', authLimiter, 
   passport.authenticate('google', { 
     failureRedirect: `${process.env.FRONTEND_URL}/login`,
     session: false 
@@ -54,7 +62,7 @@ router.get('/google/callback',
 );
 
 // Complete registration with flat number
-router.post('/complete-registration', async (req, res) => {
+router.post('/complete-registration', authLimiter, async (req, res) => {
   try {
     const { token, flatNumber } = req.body;
     
@@ -88,7 +96,7 @@ router.post('/complete-registration', async (req, res) => {
 });
 
 // Get current user
-router.get('/me', async (req, res) => {
+router.get('/me', authLimiter, async (req, res) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
     
