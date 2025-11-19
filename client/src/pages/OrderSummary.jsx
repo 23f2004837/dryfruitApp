@@ -6,15 +6,15 @@ import './OrderSummary.css';
 const OrderSummary = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const order = location.state?.order;
+  const orderPlaced = location.state?.orderPlaced;
 
   useEffect(() => {
-    if (!order) {
+    if (!orderPlaced) {
       navigate('/');
     }
-  }, [order, navigate]);
+  }, [orderPlaced, navigate]);
 
-  if (!order) {
+  if (!orderPlaced) {
     return null;
   }
 
@@ -26,70 +26,33 @@ const OrderSummary = () => {
         <div className="container">
           <div className="success-card">
             <div className="success-icon">✓</div>
-            <h2>Order Placed Successfully!</h2>
+            <h2>Order Placed Locally!</h2>
             <p className="success-message">
-              Thank you for your order. A confirmation email has been sent to {order.email}
+              Your order details have been shared via WhatsApp. 
+              The shop will contact you to confirm your order and arrange delivery.
             </p>
             
             <div className="order-details">
-              <h3>Order Details</h3>
+              <h3>What happens next?</h3>
               
-              <div className="detail-row">
-                <span>Order ID:</span>
-                <span className="detail-value">{order._id}</span>
-              </div>
-              
-              <div className="detail-row">
-                <span>Order Date:</span>
-                <span className="detail-value">
-                  {new Date(order.orderDate).toLocaleString()}
-                </span>
-              </div>
-              
-              <div className="detail-row">
-                <span>Delivery Address:</span>
-                <span className="detail-value">Flat {order.flatNumber}</span>
-              </div>
-              
-              <div className="detail-row">
-                <span>Payment Method:</span>
-                <span className="detail-value">{order.paymentMethod}</span>
-              </div>
-              
-              <div className="detail-row">
-                <span>Payment Status:</span>
-                <span className="detail-value status-completed">
-                  {order.paymentStatus}
-                </span>
+              <div className="info-box">
+                <p>📱 <strong>WhatsApp Sent:</strong> Your order summary has been prepared for WhatsApp</p>
+                <p>🛍️ <strong>Shop Contact:</strong> The shop will reach out to confirm your order</p>
+                <p>🚚 <strong>Delivery:</strong> Delivery details will be arranged via WhatsApp</p>
+                <p>💳 <strong>Payment:</strong> Payment options will be discussed during confirmation</p>
               </div>
             </div>
             
-            <div className="order-items-section">
-              <h3>Items Ordered</h3>
-              <div className="summary-items">
-                {order.items.map((item, index) => (
-                  <div key={index} className="summary-item">
-                    <div className="item-info">
-                      <span className="item-name">{item.name}</span>
-                      <span className="item-qty">Qty: {item.quantity}</span>
-                    </div>
-                    <span className="item-price">₹{item.price * item.quantity}</span>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="total-row">
-                <span>Total Amount:</span>
-                <span className="total-amount">₹{order.totalAmount}</span>
-              </div>
+            <div className="info-note">
+              <p>
+                <strong>Note:</strong> This is a client-side application. Your cart has been cleared 
+                and your order summary was prepared for WhatsApp sharing. No data is stored on any server.
+              </p>
             </div>
             
             <div className="action-buttons">
               <button onClick={() => navigate('/')} className="home-btn">
                 Back to Home
-              </button>
-              <button onClick={() => navigate('/order-history')} className="history-btn">
-                View Order History
               </button>
             </div>
           </div>
