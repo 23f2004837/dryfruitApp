@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import Header from '../components/Header';
@@ -6,7 +5,6 @@ import './Cart.css';
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, getTotalPrice } = useCart();
-  const [paymentMethod, setPaymentMethod] = useState('GPay');
   const navigate = useNavigate();
 
   const handleQuantityChange = (productId, newQuantity) => {
@@ -19,7 +17,7 @@ const Cart = () => {
     if (cartItems.length === 0) {
       return;
     }
-    navigate('/checkout', { state: { paymentMethod } });
+    navigate('/checkout');
   };
 
   return (
@@ -41,7 +39,7 @@ const Cart = () => {
             <div className="cart-content">
               <div className="cart-items">
                 {cartItems.map(item => (
-                  <div key={item._id} className="cart-item">
+                  <div key={item.id} className="cart-item">
                     <img src={item.image} alt={item.name} />
                     <div className="item-details">
                       <h3>{item.name}</h3>
@@ -49,14 +47,14 @@ const Cart = () => {
                     </div>
                     <div className="quantity-controls">
                       <button
-                        onClick={() => handleQuantityChange(item._id, item.quantity - 1)}
+                        onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
                         className="qty-btn"
                       >
                         -
                       </button>
                       <span className="quantity">{item.quantity}</span>
                       <button
-                        onClick={() => handleQuantityChange(item._id, item.quantity + 1)}
+                        onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
                         className="qty-btn"
                       >
                         +
@@ -66,7 +64,7 @@ const Cart = () => {
                       ₹{item.price * item.quantity}
                     </div>
                     <button
-                      onClick={() => removeFromCart(item._id)}
+                      onClick={() => removeFromCart(item.id)}
                       className="remove-btn"
                     >
                       ×
@@ -77,32 +75,6 @@ const Cart = () => {
               
               <div className="cart-summary">
                 <h3>Order Summary</h3>
-                
-                <div className="payment-method-selection">
-                  <h4>Select Payment Method</h4>
-                  <div className="payment-options">
-                    <label className={paymentMethod === 'GPay' ? 'active' : ''}>
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="GPay"
-                        checked={paymentMethod === 'GPay'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                      />
-                      <span>GPay</span>
-                    </label>
-                    <label className={paymentMethod === 'PhonePe' ? 'active' : ''}>
-                      <input
-                        type="radio"
-                        name="payment"
-                        value="PhonePe"
-                        checked={paymentMethod === 'PhonePe'}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                      />
-                      <span>PhonePe</span>
-                    </label>
-                  </div>
-                </div>
                 
                 <div className="summary-row">
                   <span>Subtotal:</span>

@@ -43,6 +43,35 @@
   color: #333;
 }
 
+.detail-box label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+.address-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.address-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.helper-text {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #999;
+  font-style: italic;
+}
+
 .payment-method-display {
   font-size: 1.25rem;
   font-weight: bold;
@@ -98,11 +127,23 @@
 }
 
 .order-total {
+  padding: 1.5rem 0;
+  border-top: 2px solid #e0e0e0;
+}
+
+.total-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 0;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.total-row.final {
+  padding-top: 1rem;
   border-top: 2px solid #e0e0e0;
+  margin-top: 0.5rem;
   font-size: 1.25rem;
   font-weight: bold;
   color: #333;
@@ -111,6 +152,7 @@
 .total-amount {
   font-size: 1.5rem;
   color: #667eea;
+  font-weight: bold;
 }
 
 .error-message {

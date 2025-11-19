@@ -48,7 +48,7 @@
   font-size: 1rem;
 }
 
-.order-details, .order-items-section {
+.order-details {
   margin: 2rem 0;
   padding: 1.5rem;
   background: #f9f9f9;
@@ -56,38 +56,42 @@
   text-align: left;
 }
 
-.order-details h3, .order-items-section h3 {
+.order-details h3 {
   margin: 0 0 1.5rem 0;
   font-size: 1.25rem;
   color: #333;
   text-align: center;
 }
 
-.detail-row {
+.info-box {
   display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e0e0e0;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.detail-row:last-child {
-  border-bottom: none;
-}
-
-.detail-row span:first-child {
+.info-box p {
+  margin: 0;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
   color: #666;
-  font-weight: 500;
+  font-size: 0.95rem;
 }
 
-.detail-value {
-  color: #333;
-  font-weight: 500;
-  text-align: right;
+.info-note {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #fff8e1;
+  border-left: 4px solid #ffc107;
+  border-radius: 8px;
+  text-align: left;
 }
 
-.status-completed {
-  color: #27ae60;
-  text-transform: capitalize;
+.info-note p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .summary-items {
